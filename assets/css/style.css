@@ -4,6 +4,7 @@
 
 body {
     margin-top: 60px;
+    height:1200px;
     background-color: rgb(20, 20, 66);
     background-image: url("../images/explosion_PNG15367.png");
     background-repeat: no-repeat;
@@ -31,32 +32,26 @@ main {
     margin: 40px 20px 20px 20px;
 }
 
-h2 {
-    font-size: 20px;
-    text-align: center;
-}
-
 footer {
+    margin-top: 20px;
     width: 100%;
-    height:300px;
-    position: sticky;
+    height:50px;
     bottom: 0;
     left:0;
-    padding-top: 80px;
 }
 
-#copyright {
-    margin: 20px 0 20px 20px;
-    width: 200px;
-    height: 150px;
-    float: right;
+.copyright {
     text-shadow: 2px 2px black;
     color: lightyellow;
     font-size: 12px;
 }
+#copyright, #info, #images, #license {
+    float: right;
+    width: 120px;
+    height: 50px;
+}
 
 a {
-    padding-left:10px;
     text-shadow: 2px 2px black;
     color: brown;
     text-shadow: 0 0 white;
@@ -87,12 +82,24 @@ a {
     font-weight: bolder;
 }
 
-.question {
+h2 {
     font-size: 28px;
     color: rgb(27, 14, 5);
     text-shadow: 1px 1px orange;
+    text-align: center;
 }
 
 .answer-label {
     font-size: 20px;
+}
+
+h3{
+    font-size: 20px;
+    color: rgb(27, 14, 5);
+    text-shadow: 1px 1px orange;
+    text-align: center;
+}
+
+#end {
+    margin-top: 100px;
 }

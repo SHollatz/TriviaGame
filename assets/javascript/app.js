@@ -29,12 +29,15 @@ function startStopwatch() {
         intervalId = setInterval(count, 1000);
         clockRunning = true;
         if (time === 0) {
-            buildStats();
+            addStats();
         }
     }
 }
 function count() {
     time--;
+    if (time === 0) {
+        buildStats();
+    }
     var converted = timeConverter(time);
     $("#timer").text(converted);
 }
@@ -82,7 +85,7 @@ function buildQuestions() {
 
 //function buttons
 function buildButtons(i) {
-    console.log("inside buildButtons");
+    //console.log("inside buildButtons");
     var answers = [["food supplement", "dye", "all-purpose cleaner", "explosive"],
     ["yellow solid", "white powder", "transparent oil", "smoke"],
     ["oxygen-oxygen bonds", "nitro groups", "nitrogen-nitrogen bonds", "heavy metal"],
@@ -93,55 +96,60 @@ function buildButtons(i) {
     ["easy to handle", "easy to produce", "comparibly cheap", "smokeless detonation"],
     ["oxygen-oxygen bonds", "nitro groups", "nitrogen-nitrogen bonds", "heavy metal"]];
 
-    console.log("answers[0][0]: " + answers[0][0]);
+    //console.log("answers[0][0]: " + answers[0][0]);
     var question = "#question"+i;
-    console.log("question+i: " + question);
+    //console.log("question+i: " + question);
     $(question).append($("<br>"));
 
     for (var j = 0; j < 4; j++) {
-        console.log("i, j: " + i, j)
+        //console.log("i, j: " + i, j)
         var label = $("<label>");
         label.addClass("answer-label");
         label.attr("for", "radio-" + j);
-        console.log("answer[i][j]: " + answers[i][j]);
+        //console.log("answer[i][j]: " + answers[i][j]);
         label.text(answers[i][j]);
         var input = $("<input>");
         input.addClass("answer-choice");
-        input.attr("type", "radio")
+        input.attr("type", "radio");
         input.attr("name", "radio-" + i);
-        input.attr("id", "radio-" + j)
+        input.attr("id", "radio-" + j);
+        input.attr('value', answers[i][j]);
         $(question).append(input, label);
     }
 }
 //function wins and losses
-function countCorrectAnswers() {
-
-}
-function countFalseAnsers() {
-
-}
-function countUnanswered() {
-
+// the buttons need to be selected by name and id
+// the value of each button needs to be compared to the correct answers
+// if the answer value is true, numCorrect ++
+// else if all answere values are undefined numUnanswered ++
+// else the answer value is false, numFalse ++
+function addStats() {
+    if ($("#radio-1").val()==="dye") {
+        numCorrect ++;
+    }
+    //if ($("#radio-1").val()==="") {};
+    buildStats();
 }
 
 //function end screen
 function buildStats() {
     $("#main-view").empty();
-    var end = $("<h2>");
+    var end = $("<h2 id='end'>");
     end.text("All Done!");
-    var correct = $("<h3>");
+    var correct = $("<h3 id='correct'>");
     correct.text("Correct Answers: " + numCorrect);
-    var falseAns = $("<h3>");
+    var falseAns = $("<h3 id='false'>");
     falseAns.text("Incorrect Answers: " + numFalse);
-    var unanswered = $("<h3>");
+    var unanswered = $("<h3 id='unanswered'>");
     unanswered.text("Unanswered: " + numUnanswered);
-
-}
+    $("#main-view").append(end, $("<br>"), correct, $("<br>"), falseAns, $("<br>"), unanswered);
+};
 
 $(document).ready(function() {
     console.log("inside ready")
     buildEntrance();
 
     $(document).on("click", ".start", buildQuestions);
-    $(document).on("click", ".answer-choice", startStopwatch);
+    $(document).on("click", ".start", startStopwatch);
+    //$(document).on("click", ".answer-choice", countAnswers);
 });
