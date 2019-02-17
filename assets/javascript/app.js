@@ -4,7 +4,7 @@ var numCorrect = 0;
 var numFalse = 0;
 var numUnanswered = 0;
 var clockRunning = false;
-var time = 120;
+var time = 30;
 //function start screen
 function buildEntrance() {
     console.log("inside buildEntrance")
@@ -28,15 +28,13 @@ function startStopwatch() {
     if (!clockRunning) {
         intervalId = setInterval(count, 1000);
         clockRunning = true;
-        if (time === 0) {
-            addStats();
-        }
     }
+    buildQuestions();
 }
 function count() {
     time--;
     if (time === 0) {
-        buildStats();
+        addStats();
     }
     var converted = timeConverter(time);
     $("#timer").text(converted);
@@ -45,18 +43,15 @@ function count() {
 function timeConverter(t) {
     var minutes = Math.floor(t / 60);
     var seconds = t - (minutes * 60);
-
     if (seconds < 10) {
       seconds = "0" + seconds;
     }
-
     if (minutes === 0) {
       minutes = "00";
     }
     else if (minutes < 10) {
       minutes = "0" + minutes;
     }
-
     return minutes + ":" + seconds;
   }
 
@@ -112,22 +107,42 @@ function buildButtons(i) {
         input.addClass("answer-choice");
         input.attr("type", "radio");
         input.attr("name", "radio-" + i);
-        input.attr("id", "radio-" + j);
+        input.attr("id", "radio-" + i+j);
         input.attr('value', answers[i][j]);
         $(question).append(input, label);
     }
 }
 //function wins and losses
-// the buttons need to be selected by name and id
-// the value of each button needs to be compared to the correct answers
-// if the answer value is true, numCorrect ++
-// else if all answere values are undefined numUnanswered ++
-// else the answer value is false, numFalse ++
 function addStats() {
-    if ($("#radio-1").val()==="dye") {
-        numCorrect ++;
-    }
-    //if ($("#radio-1").val()==="") {};
+    var correctAnswers = ["dye", "yellow solid", "nitro groups", "controlled demolitions", "detonator", 
+                            "nitroglycerin", "explodes spontaneously", "smokeless detonation", "nitro groups"];
+    console.log("inside addStats");
+    var chosen = [];
+    chosen[0] = $("input[name=radio-0]:checked").val();
+    console.log(chosen[0]);
+    chosen[1] = $("input[name=radio-1]:checked").val();
+    chosen[2] = $("input[name=radio-2]:checked").val();
+    chosen[3] = $("input[name=radio-3]:checked").val();
+    chosen[4] = $("input[name=radio-4]:checked").val();
+    chosen[5] = $("input[name=radio-5]:checked").val();
+    chosen[6] = $("input[name=radio-6]:checked").val();
+    chosen[7] = $("input[name=radio-7]:checked").val();
+    chosen[8] = $("input[name=radio-8]:checked").val();
+    console.log(chosen);
+
+    for (var i = 0; i < chosen.length; i ++)
+        if (chosen[i] === undefined) {
+            console.log("inside loop undefined");
+            numUnanswered++;
+            console.log(numUnanswered);
+        } else if (chosen[i] !== correctAnswers[i]) {
+            console.log("inside loop not correct")
+            numFalse++;
+        } else {
+            console.log("inside loop correct");
+            numCorrect++;
+        }
+    
     buildStats();
 }
 
@@ -149,7 +164,6 @@ $(document).ready(function() {
     console.log("inside ready")
     buildEntrance();
 
-    $(document).on("click", ".start", buildQuestions);
     $(document).on("click", ".start", startStopwatch);
     //$(document).on("click", ".answer-choice", countAnswers);
 });
