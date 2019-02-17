@@ -82,21 +82,17 @@ function buildButtons(i) {
     ["contact explosives", "medicine", "chemistry lab","controlled demolitions"],
     ["contact with water", "physical pressure", "detonator", "when melted"],
     ["TNT", "nitroglycerin", "TATP", "C-4"],
-    ["strongest explosive of all", "liquid", "explodes spontaneously", "may not explode when necessary"],
-    ["easy to handle", "easy to produce", "comparibly cheap", "smokeless detonation"],
+    ["strongest explosivions", "contains liquid", "explodes spontaneously", "may not explode when necessary"],
+    ["smokeless detonation", "easy to produce", "comparibly cheap", "easy to handle"],
     ["oxygen-oxygen bonds", "nitro groups", "nitrogen-nitrogen bonds", "heavy metal"]];
 
-    //console.log("answers[0][0]: " + answers[0][0]);
     var question = "#question"+i;
-    //console.log("question+i: " + question);
     $(question).append($("<br>"));
 
     for (var j = 0; j < 4; j++) {
-        //console.log("i, j: " + i, j)
         var label = $("<label>");
         label.addClass("answer-label");
         label.attr("for", "radio-" + j);
-        //console.log("answer[i][j]: " + answers[i][j]);
         label.text(answers[i][j]);
         var input = $("<input>");
         input.addClass("answer-choice");
@@ -151,17 +147,24 @@ function buildStats() {
     var unanswered = $("<h3 id='unanswered'>");
     unanswered.text("Unanswered: " + numUnanswered);
     $("#main-view").append(end, $("<br>"), correct, $("<br>"), falseAns, $("<br>"), unanswered, $("<br>"), $("<br>"), $("<br>"));
-    var suggestions = $("<h2 id='suggestions'>");
-    suggestions.text("Go to the modules and check out the sections about: ");
-    suggestions.attr("id", "suggestions-title");
-    var list = $("<ul>");
-    for (var i=0; i < concreteSuggestions.length; i++) {
-        var listElement = $("<li>");
-        listElement.text(concreteSuggestions[i]);
-        list.addClass("suggestions");
-        list.append(listElement);
+    
+    if (concreteSuggestions.length > 0) {
+        var suggestions = $("<h2 id='suggestions'>");
+        suggestions.text("Go to the modules and check out the sections about: ");
+        suggestions.attr("id", "suggestions-title");
+        var list = $("<ul>");
+        for (var i=0; i < concreteSuggestions.length; i++) {
+            var listElement = $("<li>");
+            listElement.text(concreteSuggestions[i]);
+            list.addClass("suggestions");
+            list.append(listElement);
+        }
+        $("#main-view").append(suggestions, $("<br>"), list);
+    } else {
+        var congratulations = $("<h2>");
+        congratulations.text("You know the material well. Great work!");
+        $("#main-view").append(congratulations);
     }
-    $("#main-view").append(suggestions, $("<br>"), list);
 };
 
 $(document).ready(function() {
