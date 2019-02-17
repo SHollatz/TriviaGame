@@ -1,13 +1,12 @@
-
 //variables:
 var numCorrect = 0;
 var numFalse = 0;
 var numUnanswered = 0;
+var concreteSuggestions = [];
 var clockRunning = false;
-var time = 90;
+var time = 30;
 //function start screen
 function buildEntrance() {
-    console.log("inside buildEntrance")
     $("#main-view").empty();
     var btn = $("<button>");
     btn.addClass("start");
@@ -16,9 +15,7 @@ function buildEntrance() {
 }
 //function timer
 function buildTimer() {
-    console.log("inside buildTimer")
     var timerSetUp = $("<h2>Time Remaining: <span id='timer'></span></h2>");
-    console.dir("timerSetUp: " + timerSetUp);
     $("#main-view").append(timerSetUp);
     $("#timer").text("00:00");  
     $("#main-view").append($("<br><br>"));
@@ -58,7 +55,6 @@ function timeConverter(t) {
 
 //function question screen
 function buildQuestions() {
-    console.log("inside buildQuestions")
     $("#main-view").empty();
     buildTimer();
     var questions = ["What was TNT first produced as?", "What does TNT look like?", 
@@ -70,7 +66,6 @@ function buildQuestions() {
         var question = $("<h2>");
         question.addClass("question");
         question.attr("id", "question" + (i));
-        console.log(question.attr("id"));
         question.text(questions[i]);
         $("#main-view").append(question);
         $("#main-view").append($("<br><br>"));
@@ -116,10 +111,8 @@ function buildButtons(i) {
 function addStats() {
     var correctAnswers = ["dye", "yellow solid", "nitro groups", "controlled demolitions", "detonator", 
                             "nitroglycerin", "explodes spontaneously", "smokeless detonation", "nitro groups"];
-    console.log("inside addStats");
     var chosen = [];
     chosen[0] = $("input[name=radio-0]:checked").val();
-    console.log(chosen[0]);
     chosen[1] = $("input[name=radio-1]:checked").val();
     chosen[2] = $("input[name=radio-2]:checked").val();
     chosen[3] = $("input[name=radio-3]:checked").val();
@@ -128,18 +121,18 @@ function addStats() {
     chosen[6] = $("input[name=radio-6]:checked").val();
     chosen[7] = $("input[name=radio-7]:checked").val();
     chosen[8] = $("input[name=radio-8]:checked").val();
-    console.log(chosen);
 
+    var allSuggestions = ["The history of TNT", "The apperance of TNT", "The molecular compound of TNT", "The application of TNT", "The explosive character of TNT",
+                        "The explosive substance in dynamite", "The dangers of dynamite", "The reason why dynamite is still used", "The molecular compound of dynamite", ];
+    concreteSuggestions = [];
     for (var i = 0; i < chosen.length; i ++)
         if (chosen[i] === undefined) {
-            console.log("inside loop undefined");
             numUnanswered++;
-            console.log(numUnanswered);
+            concreteSuggestions.push(allSuggestions[i]);
         } else if (chosen[i] !== correctAnswers[i]) {
-            console.log("inside loop not correct")
             numFalse++;
+            concreteSuggestions.push(allSuggestions[i]);
         } else {
-            console.log("inside loop correct");
             numCorrect++;
         }
     
@@ -157,13 +150,21 @@ function buildStats() {
     falseAns.text("Incorrect Answers: " + numFalse);
     var unanswered = $("<h3 id='unanswered'>");
     unanswered.text("Unanswered: " + numUnanswered);
-    $("#main-view").append(end, $("<br>"), correct, $("<br>"), falseAns, $("<br>"), unanswered);
+    $("#main-view").append(end, $("<br>"), correct, $("<br>"), falseAns, $("<br>"), unanswered, $("<br>"), $("<br>"), $("<br>"));
+    var suggestions = $("<h2 id='suggestions'>");
+    suggestions.text("Go to the modules and check out the sections about: ");
+    suggestions.attr("id", "suggestions-title");
+    var list = $("<ul>");
+    for (var i=0; i < concreteSuggestions.length; i++) {
+        var listElement = $("<li>");
+        listElement.text(concreteSuggestions[i]);
+        list.addClass("suggestions");
+        list.append(listElement);
+    }
+    $("#main-view").append(suggestions, $("<br>"), list);
 };
 
 $(document).ready(function() {
-    console.log("inside ready")
     buildEntrance();
-
     $(document).on("click", ".start", startStopwatch);
-    //$(document).on("click", ".answer-choice", countAnswers);
 });
