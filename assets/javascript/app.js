@@ -147,7 +147,6 @@ function buildStats() {
     var unanswered = $("<h3 id='unanswered'>");
     unanswered.text("Unanswered: " + numUnanswered);
     $("#main-view").append(end, $("<br>"), correct, $("<br>"), falseAns, $("<br>"), unanswered, $("<br>"), $("<br>"), $("<br>"));
-    
     if (concreteSuggestions.length > 0) {
         var suggestions = $("<h2 id='suggestions'>");
         suggestions.text("Go to the modules and check out the sections about: ");
