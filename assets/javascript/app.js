@@ -4,7 +4,7 @@ var numFalse = 0;
 var numUnanswered = 0;
 var concreteSuggestions = [];
 var clockRunning = false;
-var time = 30;
+var time = 90;
 //function start screen
 function buildEntrance() {
     $("#main-view").empty();
